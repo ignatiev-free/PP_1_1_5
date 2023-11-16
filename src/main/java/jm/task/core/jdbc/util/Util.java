@@ -22,19 +22,19 @@ public class Util {
     private static final String PASS = "859929sql";
     private static SessionFactory sesFact = null;
 
-    public static SessionFactory getSession() {
+    public static SessionFactory getSessionFactory() {
         try {
             Configuration configuration = new Configuration()
                     .setProperty("hibernate.connection.driver_class", DRIVER)
                     .setProperty("hibernate.connection.url", URL)
                     .setProperty("hibernate.connection.username", USER)
                     .setProperty("hibernate.connection.password", PASS)
-                    .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect")
+                    .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect")
                     .addAnnotatedClass(User.class)
                     .setProperty("hibernate.c3p0.min_size", "5")
                     .setProperty("hibernate.c3p0.max_size", "200")
                     .setProperty("hibernate.c3p0.max_statements", "200")
-                    .setProperty("Environment.HBM2DDL_AUTO", "");
+                    .setProperty("Environment.HBM2DDL_AUTO", "update");
 
             ServiceRegistry servReg = new StandardServiceRegistryBuilder()
                     .applySettings(configuration.getProperties()).build();
@@ -46,11 +46,12 @@ public class Util {
         return sesFact;
     }
 
-    public static SessionFactory closeConnection() {
-        sesFact.close();
-        return null;
-    }
+    public static void closeConnection() {
+        if (sesFact != null) {
+            sesFact.close();
+        }
 
+    }
 
     public static Connection getConnection() {
 

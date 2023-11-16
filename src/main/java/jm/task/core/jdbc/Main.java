@@ -17,22 +17,16 @@ public class Main {
             userService.saveUser("Name3", "LastName3", (byte) 31);
             userService.saveUser("Name4", "LastName4", (byte) 38);
             userService.removeUserById(3);
-            userService.getAllUsers();
+            //userService.getAllUsers();
+            System.out.println(userService.getAllUsers());
 
             userService.cleanUsersTable();
 
             userService.dropUsersTable();
 
         } catch (RuntimeException e) {
-
+            e.printStackTrace();
         }
-
-
-
-
-
-
-
 
 
 

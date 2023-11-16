@@ -2,6 +2,7 @@ package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
 
-    private final SessionFactory sesFact = Util.getSession();
+    private final SessionFactory sesFact = Util.getSessionFactory();
     public UserDaoHibernateImpl() {
 
     }
@@ -28,7 +29,7 @@ public class UserDaoHibernateImpl implements UserDao {
                           `name` VARCHAR(50) NULL,
                           `lastName` VARCHAR(50) NULL,
                           `age` TINYINT NOT NULL,
-                          PRIMARY KEY (id)
+                          PRIMARY KEY (`ID`)
                     );""";
             session.createSQLQuery(request).executeUpdate();
             transaction.commit();
@@ -37,7 +38,6 @@ public class UserDaoHibernateImpl implements UserDao {
                 transaction.rollback();
             }
         }
-
     }
 
     @Override
@@ -63,10 +63,10 @@ public class UserDaoHibernateImpl implements UserDao {
             User user = new User(name, lastName, age);
             session.save(user);
             transaction.commit();
-            System.out.println("User с именем – " + name + " добавлен в базу данных");
-        } catch (RuntimeException e) {
+        } catch (HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
+                e.printStackTrace();
             }
         }
     }
