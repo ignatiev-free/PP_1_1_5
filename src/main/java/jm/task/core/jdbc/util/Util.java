@@ -34,7 +34,7 @@ public class Util {
                     .setProperty("hibernate.c3p0.min_size", "5")
                     .setProperty("hibernate.c3p0.max_size", "200")
                     .setProperty("hibernate.c3p0.max_statements", "200")
-                    .setProperty("Environment.HBM2DDL_AUTO", "update");
+                    .setProperty("hibernate.hbm2ddl.auto", "update");
 
             ServiceRegistry servReg = new StandardServiceRegistryBuilder()
                     .applySettings(configuration.getProperties()).build();
